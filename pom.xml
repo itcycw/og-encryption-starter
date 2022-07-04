@@ -15,15 +15,14 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
 
-        <hutool.version>5.8.2</hutool.version>
         <security-api.version>1.0.6</security-api.version>
         <lombok-version>1.18.24</lombok-version>
         <hutool-all-version>5.8.0</hutool-all-version>
         <microservice-sdk.version>[1.4.48,1.5.0)</microservice-sdk.version>
-        <spring.boot.starter.version>2.2.5.RELEASE</spring.boot.starter.version>
         <spring-boot-starter-aop.version>2.2.5.RELEASE</spring-boot-starter-aop.version>
         <spring-boot-configuration-processor.version>2.2.5.RELEASE</spring-boot-configuration-processor.version>
         <spring-boot-autoconfigure.version>2.2.5.RELEASE</spring-boot-autoconfigure.version>
+        <spring-cloud-context.version>2.1.0.RELEASE</spring-cloud-context.version>
     </properties>
 
     <dependencies>
@@ -76,6 +75,12 @@
             <groupId>cn.tinman.sharedservices</groupId>
             <artifactId>security-api</artifactId>
             <version>${security-api.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-context</artifactId>
+            <version>${spring-cloud-context.version}</version>
+            <optional>true</optional>
         </dependency>
     </dependencies>
 

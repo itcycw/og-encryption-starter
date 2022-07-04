@@ -1,6 +1,7 @@
 package cn.jojo.og.encryption.rpc.impl;
 
 import cn.jojo.infra.sdk.api.metadata.IRpcResult;
+import cn.jojo.og.encryption.encryption.config.EncryptionAndDecryptionProperties;
 import cn.jojo.og.encryption.encryption.exception.EncryptionAndDecryptException;
 import cn.jojo.og.encryption.rpc.EncryptionAndDecryptionRpcClient;
 import cn.tinman.sharedservices.security.api.dto.EnhanceBatchDecryptReq;
@@ -20,13 +21,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.logging.log4j.util.Strings;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -38,16 +39,20 @@ import org.springframework.util.Assert;
  */
 @Component
 @Slf4j
+@RequiredArgsConstructor
 public class EncryptionAndDecryptionRpcClientImpl implements EncryptionAndDecryptionRpcClient {
 
     @Reference
     private EnhanceEncryptApi enhanceEncryptApi;
 
-    @Value("${og-ci-security.accessId:100001}")
-    private String accessId;
+    private static String accessId = "";
 
-    @Value("${og-ci-security.secret:MIIBCgKCAQEAnLdoA3ba57YHBAenYbLGTcdC48VVvVVDXV6N}")
-    private String secret;
+    private static String secret = "";
+
+    public static void init(EncryptionAndDecryptionProperties properties) {
+        accessId = properties.getAccessId();
+        secret = properties.getSecret();
+    }
 
     /**
      * @description: 单个加密
@@ -141,10 +146,6 @@ public class EncryptionAndDecryptionRpcClientImpl implements EncryptionAndDecryp
         decryptReq.setScene(SceneType.QUERY);
         //系统accessId或者员工id
         decryptReq.setRoleId(accessId);
-        //当前ip
-//        decryptReq.setIp(getHostAddress());
-        //查询数据对应的用户id
-//        decryptReq.setUserId(getCurrentLoginId());
         //解密用途 :100字符以内
         decryptReq.setApplication(SceneType.QUERY);
         // 需要解密的数据密文
@@ -185,10 +186,6 @@ public class EncryptionAndDecryptionRpcClientImpl implements EncryptionAndDecryp
         decryptReq.setScene(SceneType.QUERY);
         //系统accessId或者员工id
         decryptReq.setRoleId(accessId);
-        //当前ip
-//        decryptReq.setIp(getHostAddress());
-        //查询数据对应的用户id
-//        decryptReq.setUserId(getCurrentLoginId());
         //解密用途 :100字符以内
         decryptReq.setApplication(SceneType.QUERY);
         // 要解密的密文列表
@@ -231,10 +228,6 @@ public class EncryptionAndDecryptionRpcClientImpl implements EncryptionAndDecryp
         decryptReq.setScene(SceneType.QUERY);
         //系统accessId或者员工id
         decryptReq.setRoleId(accessId);
-        //当前ip
-//        decryptReq.setIp(getHostAddress());
-        //查询数据对应的用户id
-//        decryptReq.setUserId(getCurrentLoginId());
         //解密用途 :100字符以内
         decryptReq.setApplication(SceneType.QUERY);
         // 需要解密的数据密文
@@ -274,10 +267,6 @@ public class EncryptionAndDecryptionRpcClientImpl implements EncryptionAndDecryp
         decryptReq.setScene(SceneType.QUERY);
         //系统accessId或者员工id
         decryptReq.setRoleId(accessId);
-        //当前ip
-//        decryptReq.setIp(getHostAddress());
-        //查询数据对应的用户id
-//        decryptReq.setUserId(getCurrentLoginId());
         //解密用途 :100字符以内
         decryptReq.setApplication(SceneType.QUERY);
         // 要解密的密文列表
@@ -325,25 +314,5 @@ public class EncryptionAndDecryptionRpcClientImpl implements EncryptionAndDecryp
     private void checkSetSize(HashSet set) {
         Assert.isTrue(CollectionUtils.isNotEmpty(set) && set.size() <= 100, "参数异常! 批量处理的数量必须大于0 小于等于100");
     }
-
-    /**
-     * @description: 获取本服务器的IP地址如
-     * @param:
-     * @return: java.lang.String
-     * @author: Cw
-     * @date: 2022/5/31 14:37
-     */
-//    private String getHostAddress() {
-//        //获取本服务器的IP地址如：PC-20140317PXKX/192.168.0.121
-//        InetAddress address;
-//        try {
-//            address = InetAddress.getLocalHost();
-//        } catch (UnknownHostException e) {
-//            log.error("获取本服务器的IP信息异常!");
-//            throw new RuntimeException("获取本服务器的IP信息异常");
-//        }
-//
-//        return address.getHostAddress();
-//    }
 
 }
