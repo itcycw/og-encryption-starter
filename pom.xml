@@ -80,7 +80,6 @@
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-context</artifactId>
             <version>${spring-cloud-context.version}</version>
-            <optional>true</optional>
         </dependency>
     </dependencies>
 
