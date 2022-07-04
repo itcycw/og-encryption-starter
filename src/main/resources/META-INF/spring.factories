@@ -1,0 +1,2 @@
+org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
+cn.jojo.og.encryption.encryption.config.AutoConfiguration
