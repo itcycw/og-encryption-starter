@@ -27,7 +27,12 @@ public enum CryptographicOperationEnum {
     /**
      * 返回密文
      */
-    RETURN_CIPHERTEXT(4);
+    RETURN_CIPHERTEXT(4),
+    /**
+     * 返回全明文(覆盖原字段)
+     */
+    RETURN_FULLPLAINTEXT_OVERWRITE_ORIGINAL(5);
+
     private final Integer value;
 
     private static Map<Integer, CryptographicOperationEnum> pool = new HashMap<>();

@@ -1,6 +1,7 @@
 package cn.jojo.og.encryption.service.impl;
 
 import static cn.jojo.og.encryption.encryption.enums.CryptographicOperationEnum.ENCRYPTION;
+import static cn.jojo.og.encryption.encryption.enums.CryptographicOperationEnum.RETURN_FULLPLAINTEXT_OVERWRITE_ORIGINAL;
 
 import cn.jojo.og.encryption.encryption.annotation.Desensitization;
 import cn.jojo.og.encryption.encryption.annotation.ExtraEncryption;
@@ -12,6 +13,7 @@ import java.lang.reflect.Modifier;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -143,11 +145,28 @@ public class EncryptionAndDecryptionServiceImpl implements EncryptionAndDecrypti
                 case RETURN_FULLPLAINTEXT:
                     decryptMap = batchDecryptByFullPlaintext(cipherTextSet);
                     break;
+                //解密-返回全明文(覆盖原字段)
+                case RETURN_FULLPLAINTEXT_OVERWRITE_ORIGINAL:
+                    decryptMap = batchDecryptByFullPlaintext(cipherTextSet);
+                    break;
                 default:
                     break;
             }
-            Map<String, String> finalDecryptMap = decryptMap;
-            fieldMap.forEach((field, value) -> extraEncryptionMap.put(value, finalDecryptMap.get(value)));
+
+            for (Entry<Field, String> entry : fieldMap.entrySet()) {
+                Field field = entry.getKey();
+                String value = entry.getValue();
+                if (RETURN_FULLPLAINTEXT_OVERWRITE_ORIGINAL == operationEnum) {
+                    try {
+                        field.setAccessible(true);
+                        field.set(source, decryptMap.get(value));
+                    } catch (IllegalAccessException e) {
+                        log.error("反射加密隐私数据出现异常!", e);
+                    }
+                }
+
+                extraEncryptionMap.put(value, decryptMap.get(value));
+            }
 
             if (MapUtils.isNotEmpty(extraEncryptionMap)) {
                 try {
@@ -157,6 +176,7 @@ public class EncryptionAndDecryptionServiceImpl implements EncryptionAndDecrypti
                     log.error("反射解密隐私数据额外补充信息时出现异常!", e);
                 }
             }
+
         }
     }
 
