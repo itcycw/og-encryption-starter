@@ -1,6 +1,7 @@
 package cn.jojo.og.encryption.service.impl;
 
 import static cn.jojo.og.encryption.encryption.enums.CryptographicOperationEnum.ENCRYPTION;
+import static cn.jojo.og.encryption.encryption.enums.CryptographicOperationEnum.RETURN_CIPHERTEXT;
 import static cn.jojo.og.encryption.encryption.enums.CryptographicOperationEnum.RETURN_FULLPLAINTEXT_OVERWRITE_ORIGINAL;
 
 import cn.jojo.og.encryption.encryption.annotation.Desensitization;
@@ -127,6 +128,11 @@ public class EncryptionAndDecryptionServiceImpl implements EncryptionAndDecrypti
 
     private <T> void decryptData(T source, Map<Field, String> fieldMap, CryptographicOperationEnum operationEnum,
         HashMap<String, HashSet> queryMap, Field extraField) {
+        //操作类型为解密—返回密文时不做任何处理
+        if (RETURN_CIPHERTEXT == operationEnum) {
+            return;
+        }
+
         //反射解密隐私数据
         boolean needExtra = Objects.nonNull(extraField);
         if (needExtra && fieldMap.size() > 0) {
