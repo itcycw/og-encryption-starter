@@ -3,7 +3,6 @@ package cn.jojo.og.encryption.encryption.interceptor;
 
 import static cn.jojo.og.encryption.encryption.enums.CryptographicOperationEnum.ENCRYPTION;
 
-import cn.jojo.infra.sdk.api.metadata.IPageResp;
 import cn.jojo.og.encryption.encryption.annotation.DecryptType;
 import cn.jojo.og.encryption.encryption.annotation.OpenDecrypt;
 import cn.jojo.og.encryption.encryption.annotation.OpenEncryption;
@@ -86,15 +85,7 @@ public class EncryptionAndDecryptAspect {
                         encryptionAndDecryptionService.privacyEncryptionOrDecryption(var, operationEnum);
                     }
                 } else {
-                    //针对于分页返回结果做特殊处理
-                    if (IPageResp.class == responseObj.getClass()) {
-                        IPageResp iPageResp = (IPageResp) responseObj;
-                        for (Object resp : iPageResp.getPageRecords()) {
-                            encryptionAndDecryptionService.privacyEncryptionOrDecryption(resp, operationEnum);
-                        }
-                    } else {
-                        encryptionAndDecryptionService.privacyEncryptionOrDecryption(responseObj, operationEnum);
-                    }
+                    encryptionAndDecryptionService.privacyEncryptionOrDecryption(responseObj, operationEnum);
                 }
             }
         } catch (Throwable e) {
