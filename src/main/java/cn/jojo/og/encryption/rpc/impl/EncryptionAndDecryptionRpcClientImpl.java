@@ -16,10 +16,10 @@ import cn.tinman.sharedservices.security.api.service.EnhanceEncryptApi;
 import cn.tinman.sharedservices.security.api.utils.SignHelper;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -96,7 +96,7 @@ public class EncryptionAndDecryptionRpcClientImpl implements EncryptionAndDecryp
      * @date: 2022/5/6 15:46
      */
     @Override
-    public Map<String, String> batchEncrypt(HashSet plaintextSet, String enOrDecryptDataType) {
+    public Map<String, String> batchEncrypt(Set plaintextSet, String enOrDecryptDataType) {
         //校验批量处理的数量
         checkSetSize(plaintextSet);
         EnhanceBatchEncryptReq encryptReq = new EnhanceBatchEncryptReq();
@@ -175,7 +175,7 @@ public class EncryptionAndDecryptionRpcClientImpl implements EncryptionAndDecryp
      * @date: 2022/5/6 15:47
      */
     @Override
-    public Map<String, String> batchDecrypt(HashSet cipherTextSet) {
+    public Map<String, String> batchDecrypt(Set cipherTextSet) {
         //校验批量处理的数量
         checkSetSize(cipherTextSet);
         EnhanceBatchDecryptReq decryptReq = new EnhanceBatchDecryptReq();
@@ -256,7 +256,7 @@ public class EncryptionAndDecryptionRpcClientImpl implements EncryptionAndDecryp
      * @date: 2022/5/6 15:47
      */
     @Override
-    public Map<String, String> batchDecryptByFullPlaintext(HashSet cipherTextSet) {
+    public Map<String, String> batchDecryptByFullPlaintext(Set cipherTextSet) {
         //校验批量处理的数量
         checkSetSize(cipherTextSet);
         EnhanceBatchDecryptReq decryptReq = new EnhanceBatchDecryptReq();
@@ -311,7 +311,7 @@ public class EncryptionAndDecryptionRpcClientImpl implements EncryptionAndDecryp
      * @author: Cw
      * @date: 2022/5/7 15:03
      */
-    private void checkSetSize(HashSet set) {
+    private void checkSetSize(Set set) {
         Assert.isTrue(CollectionUtils.isNotEmpty(set) && set.size() <= 100, "参数异常! 批量处理的数量必须大于0 小于等于100");
     }
 
