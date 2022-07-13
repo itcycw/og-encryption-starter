@@ -4,7 +4,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>cn.jojo.og</groupId>
     <artifactId>og-encryption-starter</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>1.0.1</version>
     <name>og-encryption-starter</name>
     <description>渠道业务部提供的加解密服务</description>
 
